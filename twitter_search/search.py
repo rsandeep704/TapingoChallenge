@@ -33,7 +33,6 @@ def search_for_mentions(term, count=20, max_id=None):
     results = api.GetSearch(term, count=count, max_id=max_id)
     tweets = list()
     for result in results:
-        print result
         tweet = Tweet()
         tweet.set_created_at(result.created_at)
         tweet.id = int(result.id)
