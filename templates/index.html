@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tweets Search</title>
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0px;
+            background-color: #f5f8fa !important
+        }
+
+        #nav-bar {
+            background: white;
+            box-shadow: #cccccc 5px;
+        }
+
+        #nav-bar-contents {
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #title-div {
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        #nav-bar-controls {
+            float: left;
+            width: 25%;
+            height: 50px;
+        }
+
+        .tweets-container {
+            padding: 10px;
+            border-radius: 10px;
+            background-color: white;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            height: auto;
+            max-width: 750px;
+        }
+
+        .single-tweet-container {
+            margin: 25px;
+            height: 100px;
+        }
+
+        .display-pic {
+            width: 80px;
+            float: left;
+            height: 100%;
+        }
+
+        .tweet-content {
+            height: 100%;
+            width: 85%;
+            float: right;
+            padding: 10px;
+
+        }
+
+        .content-right {
+            float: right;
+        }
+
+        .content-left {
+            float: left;
+        }
+
+        .search-form .form-group {
+            float: right !important;
+            transition: all 0.35s, border-radius 0s;
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+        }
+
+        .search-form .form-group input.form-control {
+            padding-right: 20px;
+            border: 0 none;
+            background: transparent;
+            box-shadow: none;
+            display: block;
+        }
+
+        .search-form .form-group input.form-control::-webkit-input-placeholder {
+            display: none;
+        }
+
+        .search-form .form-group input.form-control:-moz-placeholder {
+            /* Firefox 18- */
+            display: none;
+        }
+
+        .search-form .form-group input.form-control::-moz-placeholder {
+            /* Firefox 19+ */
+            display: none;
+        }
+
+        .search-form .form-group input.form-control:-ms-input-placeholder {
+            display: none;
+        }
+
+        .search-form .form-group:hover,
+        .search-form .form-group.hover {
+            width: 100%;
+            border-radius: 4px 25px 25px 4px;
+        }
+
+        .display-pic {
+            padding: 10px;
+        }
+
+        .search-form .form-group span.form-control-feedback {
+            position: absolute;
+            top: -1px;
+            right: -2px;
+            z-index: 2;
+            display: block;
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            color: #3596e0;
+            left: initial;
+            font-size: 14px;
+        }
+
+        .username {
+            color: #657786;
+        }
+
+        .tweet-text {
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 400;
+        }
+
+        div {
+            flex-wrap: wrap;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        function prevPAge() {
+            window.location = '{{ prev_url }}';
+        }
+
+        function nextPage() {
+            window.location = '{{ next_url  }}';
+        }
+    </script>
+
+</head>
+<body>
+
+
+<div id="nav-bar">
+    <div id="nav-bar-contents">
+        <div id="title-div">
+            <a href="/"><h3>Tapingo Twitter Assignment</h3></a>
+        </div>
+        <div style="height: 50px" ;>
+            <div id="nav-bar-controls">
+                <button type="button" class="btn btn-default" aria-label="Left Align" onclick="prevPAge()">
+                    <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="btn btn-default" aria-label="Left Align"
+                        onclick="nextPage()">
+                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"
+                    ></span>
+                </button>
+
+            </div>
+
+            <div style=" height: 50px; width: auto; float: right;">
+                <form class="navbar-form navbar-left" action=".">
+                    <div class="form-group">
+                        <input type="text" name="term" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <div class="tweets-container">
+        {% for tweet in tweets %}
+            <div class="single-tweet-container">
+                <div class="display-pic"><a href="https://www.twitter.com/{{ tweet.user.screen_name }}">
+                    <img height="75" width="75" class="display-pic"
+                         src="{{ tweet.user.profile_image_url }}"></a>
+                </div>
+
+                <div class="tweet-content">
+                    <div style="height:25px">
+                        <div class="content-left"><a href="https://www.twitter.com/{{ tweet.user.screen_name }}">
+                            <span class="full-name"><strong>{{ tweet.user.name }}</strong></span></a>
+                            <span class="username">@{{ tweet.user.screen_name }}</span>
+                        </div>
+                        <div class="content-right">
+                            <span class="date"> {{ tweet.created_at }}</span>
+                        </div>
+                    </div>
+
+                    <div class="tweet-text">
+                        {{ tweet.text }}
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+        {% endfor %}
+
+
+    </div>
+</div>
+
+</body>
+</html>
